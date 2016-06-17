@@ -11,6 +11,7 @@ above <- function(x, n) {
   use <- x > n
 }
 
+#Calculate mean of columns in a dataframe
 columnmean <- function(y, removeNA = TRUE) {
   nc <- ncol(y)
   means <- numeric(nc)
