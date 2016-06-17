@@ -19,4 +19,5 @@ columnmean <- function(y, removeNA = TRUE) {
     means[i] <- mean(y[, i], na.rm = removeNA)
   }
   means
+  
 }
