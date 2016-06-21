@@ -8,5 +8,7 @@ complete <- function(directory, id = 1:332){
     }
     filtered_data <- subset(dataset, ID %in% c(id))
     complete_data = filtered_data[complete.cases(filtered_data), ]
-    data.frame(table(complete_data$ID))
+    complete_data_df <- data.frame(table(complete_data$ID))
+    colnames(complete_data_df) <- c("id", "nobs")
+    complete_data_df
 }
