@@ -31,11 +31,17 @@ cacheSolve <- function(x, ...) {
     identityMatrix <- matrix(c(1,0,0,1), nrow = 2, ncol = 2)
     m <- x$getInverse()
     
+    ##This is a two step check in "if" block-
+    ##Step 1: Check if inverseMatrix is not null.
+    ##Step 2: If step 1) is true, check if multiplication of 
+    ##        input matrix and its inverse matrix is an Identity Matrix
+    ## If both of above is true, then return the Inverse value from "Cache"
+    ## If Inverse Matrix value is null or input matrix has changed, then calculate the inverse value.
     if(!is.null(m)) {
         n <- x$get()
-        ##Multiply identyMatrix with its inverse.
+        ##Multiply input matrix with its inverse.
         result <- m %*% n
-        
+        ##If output of multiplication is Identity Matrix, then it means that input matrix has not changed
         if(all.equal(result, identityMatrix)){
             message("result == identityMatrix")
             message("getting cached data")
