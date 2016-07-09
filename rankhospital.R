@@ -11,7 +11,8 @@ rankhospital <- function(state, outcome, num = "best"){
     if (!(state %in% state.names))
         stop("invalid state")
     
-    ## Return hospital name in that state with lowest 30-day death rate
+    ## Return hospital name in that state with the given rank
+    ## 30-day death rate
     outcome.state <- na.omit(subset(my_df[, c(2,7,outcomes[outcome])], State == state))
     outcome.state.ordered <- outcome.state[order(outcome.state[, 3], outcome.state[, 1]), ]
     num_rank <- num
