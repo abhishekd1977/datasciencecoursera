@@ -1,7 +1,3 @@
-#####
-###'Number.of.Patients...Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure',
-###'Number.of.Patients...Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack',
-
 best <- function(state, outcome){
     setwd("/Users/abhishekdubey/abhishek-git-repos/datasciencecoursera/rprog_data_ProgAssignment3-data")
     ## Read outcome data
