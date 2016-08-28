@@ -65,8 +65,13 @@ x_test <- x_test %>%
 
 ##Merge train and test data
 merged_data <- rbind(x_train, x_test)
+sprintf("Dimension of merged data is: %s", paste(as.character(dim(merged_data)), collapse = ", "))
 
 #Create a second, independent tidy data set with the average of each variable for each activity and each subject.
-merged_data %>%
+final_data <- merged_data %>%
     group_by(subject, activity_name) %>%
     summarise_each(funs(mean))
+setwd("/Users/abhishekdubey/abhishek-git-repos/datasciencecoursera/UCI_HAR_Dataset")
+write.table(final_data, file = "tidy-data-set.txt", row.names = FALSE)
+
+sprintf("Dimension of final data is: %s", paste(as.character(dim(final_data)), collapse = ", "))
