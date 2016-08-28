@@ -11,7 +11,6 @@
 8. Attach subject data to x_trains data.
 9. Attach activity data to x_trains data.
 
-#### Perform step 3 through 9 first for train data and then for test data. 
 10. Merge train and test data
 11. Create a second, independent tidy data set with the average of each variable for each activity and each subject.
 12. Write the independent tidy data set to a text file named as "tidy-data-set.txt"
