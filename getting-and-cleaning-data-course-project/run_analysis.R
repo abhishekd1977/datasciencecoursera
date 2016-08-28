@@ -66,4 +66,7 @@ x_test <- x_test %>%
 ##Merge train and test data
 merged_data <- rbind(x_train, x_test)
 
-
+#Create a second, independent tidy data set with the average of each variable for each activity and each subject.
+merged_data %>%
+    group_by(subject, activity_name) %>%
+    summarise_each(funs(mean))
