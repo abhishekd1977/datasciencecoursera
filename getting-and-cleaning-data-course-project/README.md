@@ -21,4 +21,4 @@
 2. After filtering columns, dimension of x_train data is: (7352, 88).
 3. After filtering columns, dimension of x_test data is: (2947, 88).
 4. Dimension of merged data is: (10299, 88).
-5. Dimension of final data n file "tidy-data-set.txt" is: (40, 88).
+5. Dimension of final data in file "tidy-data-set.txt" is: (40, 88).
