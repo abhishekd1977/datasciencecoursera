@@ -15,3 +15,10 @@
 1. Merge train and test data
 2. Create a second, independent tidy data set with the average of each variable for each activity and each subject.
 3. Write the independent tidy data set to a text file named as "tidy-data-set.txt"
+
+###Important features about the program and output
+1. I have purposefully filtered the "std" and "mean" columns first (For both test and train datasets), before merging test and train datasets. This is done so that we remove the overhead of unnecessary columns while calling rbind function on 2 datasets.
+2. After filtering columns, dimension of x_train data is: (7352, 88).
+3. After filtering columns, dimension of x_test data is: (2947, 88).
+4. Dimension of merged data is: (10299, 88).
+5. Dimension of final data n file "tidy-data-set.txt" is: (40, 88).
