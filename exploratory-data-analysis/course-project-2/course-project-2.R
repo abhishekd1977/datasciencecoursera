@@ -60,11 +60,11 @@ sectorDataVehicles <- filter(SCC, EI.Sector %in% c("Mobile - On-Road Gasoline He
                                                    "Mobile - On-Road Diesel Heavy Duty Vehicles")) %>% select(SCC, EI.Sector)
 pm25summary <- merge(NEI, sectorDataVehicles, by.x = "SCC", by.y = "SCC") %>% 
                 filter(fips == "24510" | fips == "06037") %>%
-                select(year, Emissions, EI.Sector, fips) %>%
-                group_by(year, EI.Sector, fips) %>% summarize(EmissionsSum = sum(Emissions))
-g <- ggplot(pm25summary, aes(year, EmissionsSum, colour = as.factor(fips, EI.Sector)))
-g + geom_point() + geom_line(aes(group = c("fips", "EI.Sector")))
-dev.copy(png, file = "plot5.png")
+                select(year, Emissions, fips) %>%
+                group_by(year, fips) %>% summarize(EmissionsSum = sum(Emissions))
+g <- ggplot(pm25summary, aes(year, EmissionsSum, colour = as.factor(fips)))
+g + geom_point() + geom_line(aes(group = fips))
+dev.copy(png, file = "plot6.png")
 dev.off()
 
 
