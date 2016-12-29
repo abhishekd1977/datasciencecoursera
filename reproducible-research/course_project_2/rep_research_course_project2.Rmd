@@ -42,8 +42,18 @@ stormData[stormData$PROPDMGEXP %in% c("K","k"), "PROPDMG_CROPDMG_MULTIPLIER"] = 
 stormData[stormData$PROPDMGEXP %in% c("M","m"), "PROPDMG_CROPDMG_MULTIPLIER"] = 1000000
 stormData[stormData$PROPDMGEXP %in% c("B","b"), "PROPDMG_CROPDMG_MULTIPLIER"] = 1000000000
 
+stormData <-    select(stormData, EVTYPE, FATALITIES, INJURIES, PROPDMG, CROPDMG, PROPDMG_CROPDMG_MULTIPLIER) %>% 
+                mutate(FATALITIES_AND_INJURIES_COMBINED = FATALITIES + INJURIES) %>%
+                mutate(PROPDMG_DOLLAR_VALUE = PROPDMG*PROPDMG_CROPDMG_MULTIPLIER) %>%
+                mutate(CROPDMG_DOLLAR_VALUE = CROPDMG*PROPDMG_CROPDMG_MULTIPLIER) %>%
+                mutate(TOTAL_DOLLAR_VALUE_FOR_PROP_AND_CROP_DAMAGE = PROPDMG_DOLLAR_VALUE + CROPDMG_DOLLAR_VALUE) %>%
+                select(EVTYPE, FATALITIES_AND_INJURIES_COMBINED, TOTAL_DOLLAR_VALUE_FOR_PROP_AND_CROP_DAMAGE)
+                
 
-##stormDataSummarised <- select(stormData, EVTYPE, FATALITIES, INJURIES) %>% mutate(fatalitiesAndInjuriesCombined = FATALITIES + INJURIES) %>% group_by(EVTYPE) %>% summarize(countFatalities = sum(FATALITIES), countInjuries = sum(INJURIES), countFatalitiesAndInjutiesCombined = sum(fatalitiesAndInjuriesCombined)) %>% arrange(desc(countFatalities))
+                    ##    %>% 
+                    ##    group_by(EVTYPE) %>% 
+                    ##    summarize(countFatalities = sum(FATALITIES), countInjuries = sum(INJURIES), countFatalitiesAndInjutiesCombined = sum(fatalitiesAndInjuriesCombined)) %>% 
+                    ##    arrange(desc(countFatalities))
 ```
 
 ## Results
