@@ -11,17 +11,21 @@ output:
 
 
 ## Data Processing
-**1. Read the csv file using read.csv function.<br>**
+##### As part of data processing, we want to derive summarized values by Event Type for following-
+###### Total Fatalities
+###### Total Injuries
+###### Total Fatalities and Injuries Combined
+###### Total Dollar value of Property Damage
+###### Total Dollar value of Crop Damage
+###### Total Dollar value of Property Damage and Crop Damage Combined
 
-#### Data Processing - Derive dollar values for property damage and crop damage as mentioned in below steps-
-**1. Handle exponent value of PROPDMGEXP and CROPDMGEXP columns.<br>**
-**2. Derive a multipler and store it into a new column in Storm dataset.<br>**
-**3. Use this multiplier to derive total dollar vale of property damage and crop damage. Store these values in 2 separate columns in Storm dataset.<br>**
-**4. Derive total dollar value of property damage and crop damage combined together.<br>**
-
-#### Data Processing - Derive total combined value of fatalities and injuries-
-**1.Derive total combined value of fatalities and injuries by adding up "FATALITIES" and "INJURIES". Store this value in a new column in Storm dataset.<br>**
-
+##### Data Processing Steps-
+###### 1. Read the csv file using read.csv function.
+###### 2. Handle exponent value of PROPDMGEXP and CROPDMGEXP columns.
+###### 3. Derive a multipler and store it into a new column in Storm dataset.
+###### 4. Use this multiplier to derive total dollar vale of property damage and crop damage. Store these values in 2 separate columns in Storm dataset.
+###### 5. Derive total dollar value of property damage and crop damage combined together.
+###### 6. Derive total combined value of fatalities and injuries by adding up "FATALITIES" and "INJURIES". Store this value in a new column in Storm dataset.
 
 
 ```{r}
@@ -54,19 +58,34 @@ stormData[stormData$PROPDMGEXP %in% c("K","k"), "PROPDMG_CROPDMG_MULTIPLIER"] = 
 stormData[stormData$PROPDMGEXP %in% c("M","m"), "PROPDMG_CROPDMG_MULTIPLIER"] = 1000000
 stormData[stormData$PROPDMGEXP %in% c("B","b"), "PROPDMG_CROPDMG_MULTIPLIER"] = 1000000000
 
-stormDataSummarized <-  select(stormData, EVTYPE, FATALITIES, INJURIES, PROPDMG, CROPDMG, PROPDMG_CROPDMG_MULTIPLIER) %>% 
+stormDataSummarized <-  select(stormData, 
+                               EVTYPE, 
+                               FATALITIES, 
+                               INJURIES, 
+                               PROPDMG, 
+                               CROPDMG, 
+                               PROPDMG_CROPDMG_MULTIPLIER) %>% 
                         mutate(FATALITIES_AND_INJURIES_COMBINED = FATALITIES + INJURIES) %>%
                         mutate(PROPDMG_DOLLAR_VALUE = PROPDMG*PROPDMG_CROPDMG_MULTIPLIER) %>%
                         mutate(CROPDMG_DOLLAR_VALUE = CROPDMG*PROPDMG_CROPDMG_MULTIPLIER) %>%
-                        mutate(DOLLAR_VALUE_FOR_PROP_AND_CROP_DAMAGE_COMBINED = PROPDMG_DOLLAR_VALUE + CROPDMG_DOLLAR_VALUE) %>%
-                        select(EVTYPE, FATALITIES, INJURIES, FATALITIES_AND_INJURIES_COMBINED, PROPDMG_DOLLAR_VALUE, CROPDMG_DOLLAR_VALUE, DOLLAR_VALUE_FOR_PROP_AND_CROP_DAMAGE_COMBINED) %>%
+                        mutate(DOLLAR_VALUE_FOR_PROP_AND_CROP_DAMAGE_COMBINED = 
+                                   PROPDMG_DOLLAR_VALUE + CROPDMG_DOLLAR_VALUE) %>%
+                        select(EVTYPE, 
+                               FATALITIES, 
+                               INJURIES, 
+                               FATALITIES_AND_INJURIES_COMBINED, 
+                               PROPDMG_DOLLAR_VALUE, 
+                               CROPDMG_DOLLAR_VALUE, 
+                               DOLLAR_VALUE_FOR_PROP_AND_CROP_DAMAGE_COMBINED) %>%
                         group_by(EVTYPE) %>% 
                         summarize(TOTAL_FATALITIES = sum(FATALITIES),
                                   TOTAL_INJURIES = sum(INJURIES),
-                                  TOTAL_FATALITIES_AND_INJURIES = sum(FATALITIES_AND_INJURIES_COMBINED),
+                                  TOTAL_FATALITIES_AND_INJURIES = 
+                                      sum(FATALITIES_AND_INJURIES_COMBINED),
                                   TOTAL_PROPDMG_DOLLAR_VALUE = sum(PROPDMG_DOLLAR_VALUE),
                                   TOTAL_CROPDMG_DOLLAR_VALUE = sum(CROPDMG_DOLLAR_VALUE),
-                                  TOTAL_DOLLAR_VALUE_FOR_PROP_AND_CROP_DAMAGE = sum(DOLLAR_VALUE_FOR_PROP_AND_CROP_DAMAGE_COMBINED)
+                                  TOTAL_DOLLAR_VALUE_FOR_PROP_AND_CROP_DAMAGE = 
+                                      sum(DOLLAR_VALUE_FOR_PROP_AND_CROP_DAMAGE_COMBINED)
                                   ) %>%
                         select(
                                 EVTYPE, 
