@@ -18,6 +18,7 @@ output:
 ###### Total Dollar value of Property Damage
 ###### Total Dollar value of Crop Damage
 ###### Total Dollar value of Property Damage and Crop Damage Combined
+###### Select Top 5 rows for Event Type vs each of above mentioned derived attibutes in descending order
 
 ##### Data Processing Steps-
 ###### 1. Read the csv file using read.csv function.
@@ -58,7 +59,7 @@ stormData[stormData$PROPDMGEXP %in% c("K","k"), "PROPDMG_CROPDMG_MULTIPLIER"] = 
 stormData[stormData$PROPDMGEXP %in% c("M","m"), "PROPDMG_CROPDMG_MULTIPLIER"] = 1000000
 stormData[stormData$PROPDMGEXP %in% c("B","b"), "PROPDMG_CROPDMG_MULTIPLIER"] = 1000000000
 
-stormDataSummarized <-  select(stormData, 
+STORM_DATA_SUMMARIZED <-  select(stormData, 
                                EVTYPE, 
                                FATALITIES, 
                                INJURIES, 
@@ -96,6 +97,37 @@ stormDataSummarized <-  select(stormData,
                                 TOTAL_CROPDMG_DOLLAR_VALUE, 
                                 TOTAL_DOLLAR_VALUE_FOR_PROP_AND_CROP_DAMAGE
                                )
+
+STORM_DATA_TOP5_FATALITIES <-  STORM_DATA_SUMMARIZED %>% 
+                            select(EVTYPE, TOTAL_FATALITIES) %>%
+                            arrange(desc(TOTAL_FATALITIES)) %>%
+                            top_n(5)
+
+STORM_DATA_TOP5_INJURIES   <-  STORM_DATA_SUMMARIZED %>% 
+                            select(EVTYPE, TOTAL_INJURIES) %>%
+                            arrange(desc(TOTAL_INJURIES)) %>%
+                            top_n(5)
+
+STORM_DATA_TOP5_FATALITIES_AND_INJURIES_COMBINED <- STORM_DATA_SUMMARIZED %>% 
+                                                    select(EVTYPE, TOTAL_FATALITIES_AND_INJURIES) %>%
+                                                    arrange(desc(TOTAL_FATALITIES_AND_INJURIES)) %>%
+                                                    top_n(5)
+
+STORM_DATA_TOP5_PROPDMG_DOLLAR_VALUE <- STORM_DATA_SUMMARIZED %>% 
+                                        select(EVTYPE, TOTAL_PROPDMG_DOLLAR_VALUE) %>%
+                                        arrange(desc(TOTAL_PROPDMG_DOLLAR_VALUE)) %>%
+                                        top_n(5)
+
+STORM_DATA_TOP5_CROPDMG_DOLLAR_VALUE <- STORM_DATA_SUMMARIZED %>% 
+                                        select(EVTYPE, TOTAL_CROPDMG_DOLLAR_VALUE) %>%
+                                        arrange(desc(TOTAL_CROPDMG_DOLLAR_VALUE)) %>%
+                                        top_n(5)
+
+STORM_DATA_TOP5_PROP_AND_CROP_DAMAGE_COMBINED <- STORM_DATA_SUMMARIZED %>% 
+                                                select(EVTYPE, TOTAL_DOLLAR_VALUE_FOR_PROP_AND_CROP_DAMAGE) %>%
+                                                arrange(desc(TOTAL_DOLLAR_VALUE_FOR_PROP_AND_CROP_DAMAGE)) %>%
+                                                top_n(5)
+
 ```
 
 ## Results
