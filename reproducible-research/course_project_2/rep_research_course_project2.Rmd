@@ -5,29 +5,31 @@ output:
     keep_md: true
 ---
 
-## Title: Your document should have a title that briefly summarizes your data analysis
+## Title: 
+#####Explore the NOAA storm database and detrmine events causing most harm to population health and  economic consequences.
 
-## Synopsis: Blah-Blah-Blah
+## Synopsis: 
+#####The basic goal of this assignment is to explore the NOAA Storm Database and detrmine which types of events are most harmful to population health and causing greatest economic consequences. This analysis requires calculating a) Total dollar value of damage to property and crop combined by Event type b) Total number of fatalities and injuries combined by Event type. The result of this analysis is represented as top 5 events causing either population health issues or economic consequences. The results have been shown in tabular form and in 2 plots. The results suggest that "Tornado" event is causing highest number of fatalities and Injuries. Highest property damage has been caused by event "Flood", whereas highest crop damage has been caused by event "Hurricane".
 
 
 ## Data Processing
 ##### As part of data processing, we want to derive summarized values by Event Type for following-
-###### Total Fatalities
-###### Total Injuries
-###### Total Fatalities and Injuries Combined
-###### Total Dollar value of Property Damage
-###### Total Dollar value of Crop Damage
-###### Total Dollar value of Property Damage and Crop Damage Combined
-###### Select Top 5 rows for Event Type vs each of above mentioned derived attibutes in descending order
+##### Total Fatalities
+##### Total Injuries
+##### Total Fatalities and Injuries Combined
+##### Total Dollar value of Property Damage
+##### Total Dollar value of Crop Damage
+##### Total Dollar value of Property Damage and Crop Damage Combined
+##### Select Top 5 rows for Event Type vs each of above mentioned derived attibutes in descending order
 
 ##### Data Processing Steps-
-###### 1. Read the csv file using read.csv function.
-###### 2. Handle exponent value of PROPDMGEXP and CROPDMGEXP columns.
-###### 3. Derive a multipler and store it into a new column in Storm dataset.
-###### 4. Use this multiplier to derive total dollar vale of property damage and crop damage. Store these values in 2 separate columns in Storm dataset.
-###### 5. Derive total dollar value of property damage and crop damage combined together.
-###### 6. Derive total combined value of fatalities and injuries by adding up "FATALITIES" and "INJURIES". Store this value in a new column in Storm dataset.
-
+##### 1. Read the csv file using read.csv function.
+##### 2. Handle exponent value of PROPDMGEXP and CROPDMGEXP columns.
+##### 3. Derive a multipler and store it into a new column in Storm dataset.
+##### 4. Use this multiplier to derive total dollar vale of property damage and crop damage. Store these values in 2 separate columns in Storm dataset.
+##### 5. Derive total dollar value of property damage and crop damage combined together.
+##### 6. Derive total combined value of fatalities and injuries by adding up "FATALITIES" and "INJURIES". Store this value in a new column in Storm dataset.
+##### 7. Arrange each of "Total Derived Values" in descending order with respect to Event Type.
 
 ```{r}
 library(dplyr)
@@ -131,4 +133,48 @@ STORM_DATA_TOP5_PROP_AND_CROP_DAMAGE_COMBINED <- STORM_DATA_SUMMARIZED %>%
 ```
 
 ## Results
+##### Top 5 Fatalities by Event Type
+```{r}
+STORM_DATA_TOP5_FATALITIES
+```
+
+##### Top 5 Injuries by Event Type
+```{r}
+STORM_DATA_TOP5_INJURIES
+```
+
+##### Top 5 Fatalities and Injuries Combined by Event Type
+```{r}
+STORM_DATA_TOP5_FATALITIES_AND_INJURIES_COMBINED
+
+g <- ggplot(STORM_DATA_TOP5_FATALITIES_AND_INJURIES_COMBINED, aes(EVTYPE, log(TOTAL_FATALITIES_AND_INJURIES)))
+g + geom_point() + geom_line() + labs(x = "Event Type") + labs(y = "log(Total Fatalities and Injuries)") + labs(title = "Top 5 Fatalities and Injuries by Event Type")
+
+```
+
+##### Top 5 Property Damage in Dollar Value by Event Type
+```{r}
+STORM_DATA_TOP5_PROPDMG_DOLLAR_VALUE
+```
+
+##### Top 5 Crop Damage in Dollar Value by Event Type
+```{r}
+STORM_DATA_TOP5_CROPDMG_DOLLAR_VALUE
+```
+
+##### Top 5 Property and Crop Damage Combined in Dollar Value by Event Type
+```{r}
+STORM_DATA_TOP5_PROP_AND_CROP_DAMAGE_COMBINED
+
+g <- ggplot(STORM_DATA_TOP5_PROP_AND_CROP_DAMAGE_COMBINED, aes(EVTYPE, log(TOTAL_DOLLAR_VALUE_FOR_PROP_AND_CROP_DAMAGE)))
+g + geom_point() + geom_line() + labs(x = "Event Type") + labs(y = "log(Total Dollar value of Property and Crop Damage Combined)") + labs(title = "Top 5 Dollar value of Property and Crop Damage by Event Type")
+```
+
+
+
+####Results Summary
+##### 1. "Tornado" event is causing highest number of fatalities and Injuries. 
+##### 2. Highest property damage has been caused by event "Flood".
+##### 3. Highest crop damage has been caused by event "Hurricane".
+##### 4. Highest property and crop damage combined has been caused by event "Hurricane".
 
